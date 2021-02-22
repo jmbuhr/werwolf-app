@@ -1,7 +1,7 @@
 <script>
 import GoMarkGithub from 'svelte-icons/go/GoMarkGithub.svelte'
-let players = ['a'];
-let roles = ['a'];
+let players = [''];
+let roles = [''];
 
 $: shuffled = shuffle(roles);
 
