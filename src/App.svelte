@@ -17,14 +17,14 @@ function shuffle(array) {
 function handlePlayerInputKey(event, index) {
   if(event.key === 'Enter'){
 		addPlayer();
-		document.getElementById(`p${index+1}`).focus()
+		setTimeout(()=> document.getElementById(`player${index+1}`).focus())
   }
 }
 
 function handleRoleInputKey(event, index) {
   if(event.key === 'Enter'){
 		addRole();
-		document.getElementById(`r${index+1}`).focus()
+		setTimeout(()=> document.getElementById(`role${index+1}`).focus())
 	}
 }
 
@@ -59,7 +59,7 @@ function removeRole(index) {
 		<h3>Players</h3>
 		{#each players as player, index}
 			<button class="rm" on:click={()=>removePlayer(index)}>x</button>
-			<input id="p{index}" bind:value={players[index]} on:keypress={(event) => handlePlayerInputKey(event, index)}/>
+			<input id="player{index}" bind:value={players[index]} on:keypress={(event) => handlePlayerInputKey(event, index)}/>
 			<br>
 		{/each}
 		<button on:click={addPlayer}>Add player</button>
@@ -68,7 +68,7 @@ function removeRole(index) {
 		<h3>Roles</h3>
 		{#each roles as role, index}
 			<button class="rm" on:click={()=>removeRole(index)}>x</button>
-			<input id="r{index}" bind:value={roles[index]} on:keypress={handleRoleInputKey}/>
+			<input id="role{index}" bind:value={roles[index]} on:keypress={(event) => handleRoleInputKey(event, index)}/>
 			<br>
 		{/each}
 		<button on:click={addRole}>Add role</button>
