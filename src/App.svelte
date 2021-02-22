@@ -1,4 +1,5 @@
 <script>
+import GoMarkGithub from 'svelte-icons/go/GoMarkGithub.svelte'
 let players = ['a'];
 let roles = ['a'];
 
@@ -42,12 +43,16 @@ function addRole() {
 function removeRole(index) {
 	roles = roles.filter((_,i) => i != index);
 }
-
 </script>
 
 <main>
 
+<nav>
+	<div class="icon" ><a href="https://github.com/jmbuhr/werwolf-app"><GoMarkGithub/></a></div>
+</nav>
+
 <h1>Werwolf Online Generator</h1>
+
 
 <div class='controls'>
 	<div>
@@ -90,6 +95,11 @@ function removeRole(index) {
   h1 {
 		text-align: center;
 	}
+
+	.icon {
+    width: 32px;
+    height: 32px;
+  }
 
 	.result {
 		margin: 30px auto;
