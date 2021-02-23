@@ -1,9 +1,14 @@
 <script>
 import GoMarkGithub from 'svelte-icons/go/GoMarkGithub.svelte'
-let players = [''];
-let roles = [''];
+import EditableList from './components/EditableList.svelte';
+let players= [{name: '', field: ''}];
+let roles = [{name: '', field: ''}];
 
-$: shuffled = shuffle(roles);
+$: shuffledRoles = shuffle(roles.map((v) => v.name));
+
+function reshuffle() {
+  shuffledRoles = shuffle(roles.map((v) => v.name));
+}
 
 function shuffle(array) {
   array = array.slice(0);
@@ -12,36 +17,6 @@ function shuffle(array) {
       [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
-}
-
-function handlePlayerInputKey(event, index) {
-  if(event.key === 'Enter'){
-    addPlayer();
-    setTimeout(()=> document.getElementById(`player${index+1}`).focus())
-  }
-}
-
-function handleRoleInputKey(event, index) {
-  if(event.key === 'Enter'){
-    addRole();
-    setTimeout(()=> document.getElementById(`role${index+1}`).focus())
-  }
-}
-
-function addPlayer() {
-  players = [...players, '']
-}
-
-function removePlayer(index) {
-  players = players.filter((_,i) => i != index);
-}
-
-function addRole() {
-  roles = [...roles, '']
-}
-
-function removeRole(index) {
-  roles = roles.filter((_,i) => i != index);
 }
 </script>
 
@@ -52,29 +27,12 @@ function removeRole(index) {
 </nav>
 
 <h1>Werwolf Online Generator</h1>
-
-
 <div class='controls'>
-  <div>
-    <h3>Players</h3>
-    {#each players as player, index}
-      <button class="rm" on:click={()=>removePlayer(index)}>x</button>
-      <input id="player{index}" bind:value={players[index]} on:keypress={(event) => handlePlayerInputKey(event, index)}/>
-      <br>
-    {/each}
-    <button on:click={addPlayer}>Add player</button>
-  </div>
-  <div>
-    <h3>Roles</h3>
-    {#each roles as role, index}
-      <button class="rm" on:click={()=>removeRole(index)}>x</button>
-      <input id="role{index}" bind:value={roles[index]} on:keypress={(event) => handleRoleInputKey(event, index)}/>
-      <br>
-    {/each}
-    <button on:click={addRole}>Add role</button>
-  </div>
+  <EditableList bind:entries={players} typeOfEntry="player"/>
+  <EditableList bind:entries={roles} typeOfEntry="role"/>
 </div>
 <div class='result'>
+  <button on:click={reshuffle}>Reshuffle</button>
   <table>
     <tr>
       <th>Player</th>
@@ -82,13 +40,12 @@ function removeRole(index) {
     </tr>
     {#each players as pl, index}
       <tr>
-        <td>{pl}</td>
-        <td>{shuffled[index]}</td>
+        <td>{pl.name}</td>
+        <td>{shuffledRoles[index]}</td>
       </tr>
     {/each}
   </table>
 </div>
-
 </main>
 
 <style>
@@ -112,28 +69,6 @@ function removeRole(index) {
     margin: auto;
     border-radius: 2px;
     max-width: fit-content;
-  }
-
-  button {
-    transition: 0.3s;
-    opacity: 0.8;
-    border-radius: 5px;
-  }
-
-  button.rm {
-    font-weight: bold;
-    border-radius: 40%;
-    margin: auto;
-    padding: 1px 6px;
-    border: none;
-    text-align: center;
-  }
-
-  button:hover {opacity: 1}
-
-  button.rm:hover {
-    background-color: rgb(128, 14, 14);
-    color: white;
   }
 
   table {
